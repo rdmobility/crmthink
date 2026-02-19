@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Preços Bitrix24 | CRMThink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .pricing-header {
+            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+        }
+        .pricing-header h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .pricing-header p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .pricing-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .toggle-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .discount-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .discount-badge::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #fde68a;
+        }
+        .toggle-wrapper {
+            display: inline-flex;
+            background: #e2e8f0;
+            border-radius: 30px;
+            padding: 4px;
+            gap: 4px;
+        }
+        .toggle-btn {
+            padding: 12px 32px;
+            border: none;
+            background: transparent;
+            border-radius: 26px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background: white;
+            color: #1e293b;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        /* ✅ CORREÇÃO PRINCIPAL: forçar 5 colunas no desktop */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+        .pricing-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 22px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .pricing-card.popular {
+            border-color: #00b4a0;
+        }
+        .pricing-card.free {
+            border-left: 5px solid #00b4a0;
+        }
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00b4a0;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .free-badge {
+            position: absolute;
+            top: 20px;
+            left: -12px;
+            background: #00b4a0;
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            border-radius: 4px 4px 0 0;
+        }
+        .plan-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .plan-name.basic { color: #0ea5e9; }
+        .plan-name.standard { color: #00b4a0; }
+        .plan-name.professional { color: #f7931e; }
+        .plan-name.enterprise { color: #8b5cf6; }
+        .plan-name.free-plan { color: #00b4a0; }
+        .price-wrapper {
+            margin-bottom: 8px;
+        }
+        .currency {
+            font-size: 18px;
+            font-weight: 600;
+            color: #64748b;
+            vertical-align: top;
+        }
+        .price {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1;
+        }
+        .price-period {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .users-badge {
+            display: inline-block;
+            background: #f0fdfa;
+            color: #00b4a0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            border: 1px solid #99f6e4;
+        }
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 28px;
+        }
+        .cta-button.primary {
+            background: linear-gradient(135deg, #00b4a0 0%, #00a393 100%);
+            color: white;
+        }
+        .cta-button.primary:hover {
+            background: linear-gradient(135deg, #00a393 0%, #009688 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 180, 160, 0.4);
+        }
+        .cta-button.secondary {
+            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+            color: white;
+        }
+        .cta-button.secondary:hover {
+            background: linear-gradient(135deg, #e8850f 0%, #e85a28 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 147, 30, 0.4);
+        }
+        .features-list {
+            list-style: none;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+            color: #475569;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            background: #e0f2fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+        .feature-icon svg {
+            width: 12px;
+            height: 12px;
+            color: #0ea5e9;
+        }
+        .feature-category {
+            font-weight: 600;
+            color: #1e293b;
+            padding: 14px 0 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .feature-category-icon {
+            width: 24px;
+            height: 24px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #475569;
+        }
+        .highlight-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .highlight-icon svg {
+            width: 16px;
+            height: 16px;
+            color: #0284c7;
+        }
+        .features-separator {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 16px 0;
+        }
+        .faq-section {
+            max-width: 900px;
+            margin: 80px auto 0;
+            padding: 0 20px;
+        }
+        .faq-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 40px;
+        }
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            display: none;
+            padding: 0 24px 20px;
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 80px;
+            color: white;
+        }
+        .cta-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-section .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-section .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-section .btn-white {
+            background: white;
+            color: #f7931e;
+        }
+        .cta-section .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+        }
+        .cta-section .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .cta-section .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .partner-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .partner-badge img {
+            height: 50px;
+        }
+        .partner-badge span {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .compare-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .compare-link a {
+            color: #00b4a0;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+        .compare-link a:hover {
+            text-decoration: underline;
+        }
+        /* ✅ RESPONSIVIDADE CORRIGIDA */
+        @media (max-width: 1300px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .pricing-header {
+                padding: 40px 20px;
+            }
+            .pricing-card {
+                padding: 28px 24px;
+            }
+            .price {
+                font-size: 40px;
+            }
+            .toggle-btn {
+                padding: 10px 24px;
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 480px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .cta-section .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .cta-section .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="pricing-header">
+        <h1>Planos e Preços do Bitrix24</h1>
+        <p>Preço único para TODOS os usuários inclusos dentro do limite do plano</p>
+    </section>
+    <div class="pricing-container">
+        
+        <div class="toggle-section">
+            <div class="discount-badge">Economize até 20%</div>
+            <div style="clear: both;"></div>
+            <div class="toggle-wrapper">
+                <button class="toggle-btn" data-period="monthly">Mensal</button>
+                <button class="toggle-btn active" data-period="annual">Anual</button>
+            </div>
+        </div>
+        <div class="pricing-grid">
+            
+            <!-- Free Plan -->
+            <div class="pricing-card free">
+                <span class="free-badge">Free</span>
+                <h3 class="plan-name free-plan">Free</h3>
+                <div class="price-wrapper">
+                    <span class="currency">R$</span>
+                    <span class="price">0</span>
+                </div>
+                <p class="price-period">/ gratuito para sempre</p>
+                <span class="users-badge">ilimitado de usuários</span>
+                <a href="https://www.bitrix24.com.br/create.php?p=3523589" target="_blank" class="cta-button primary">COMEÇAR GRÁTIS</a>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <span>5 GB de armazenamento</span>
+                </div>
+                <div class="features-separator"></div>
+                <div class="feature-category">
+                    <div class="feature-category-icon">💬</div>
+                    Colaboração
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Bate-papo, chamadas de vídeo
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Calendário, drive
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Base de conhecimento
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">📋</div>
+                    Tarefas e Projetos
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Tarefas ilimitadas
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Projetos e grupos de trabalho
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">📊</div>
+                    CRM
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Leads, negócios, contatos ilimitados
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        1 pipeline de vendas
+                    </li>
+                </ul>
+            </div>
+            <!-- Basic Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name basic">Basic</h3>
+                <div class="price-wrapper">
+                    <span class="currency">R$</span>
+                    <span class="price" data-monthly="349" data-annual="279">279</span>
+                </div>
+                <p class="price-period">/ empresa / mês / cobrança anual</p>
+                <span class="users-badge">inclui 5 usuários</span>
+                <a href="https://wa.me/554738420116?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20adquirir%20o%20plano%20Basic%20do%20Bitrix24." target="_blank" class="cta-button primary">COMPRAR</a>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <span>24 GB de armazenamento</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <span>5 usuários</span>
+                </div>
+                <div class="features-separator"></div>
+                <div class="feature-category">
+                    <div class="feature-category-icon">💬</div>
+                    Colaboração
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Tudo do Free +
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Calendário compartilhado
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Documentos online
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">📊</div>
+                    CRM
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Pipelines ilimitados
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Central de atendimento
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Orçamentos e faturas
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">🌐</div>
+                    Sites e Lojas
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Sites e lojas online
+                    </li>
+                </ul>
+            </div>
+            <!-- Standard Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name standard">Standard</h3>
+                <div class="price-wrapper">
+                    <span class="currency">R$</span>
+                    <span class="price" data-monthly="699" data-annual="559">559</span>
+                </div>
+                <p class="price-period">/ empresa / mês / cobrança anual</p>
+                <span class="users-badge">inclui 50 usuários</span>
+                <a href="https://wa.me/554738420116?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20adquirir%20o%20plano%20Standard%20do%20Bitrix24." target="_blank" class="cta-button primary">COMPRAR</a>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <span>100 GB de armazenamento</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <span>50 usuários</span>
+                </div>
+                <div class="features-separator"></div>
+                <div class="feature-category">
+                    <div class="feature-category-icon">💬</div>
+                    Colaboração
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Tudo do Basic +
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Grupos de trabalho avançados
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">📊</div>
+                    CRM
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        CRM Marketing
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Automação de vendas
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Relatórios avançados
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">⚡</div>
+                    Automação
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Automação de fluxo de trabalho
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        RPA básico
+                    </li>
+                </ul>
+            </div>
+            <!-- Professional Plan -->
+            <div class="pricing-card popular">
+                <span class="popular-badge">Mais Popular</span>
+                <h3 class="plan-name professional">Professional</h3>
+                <div class="price-wrapper">
+                    <span class="currency">R$</span>
+                    <span class="price" data-monthly="1399" data-annual="1119">1.119</span>
+                </div>
+                <p class="price-period">/ empresa / mês / cobrança anual</p>
+                <span class="users-badge">inclui 100 usuários</span>
+                <a href="https://wa.me/554738420116?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20adquirir%20o%20plano%20Professional%20do%20Bitrix24." target="_blank" class="cta-button primary">COMPRAR</a>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <span>1.024 GB de armazenamento</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <span>100 usuários</span>
+                </div>
+                <div class="features-separator"></div>
+                <div class="feature-category">
+                    <div class="feature-category-icon">💬</div>
+                    Colaboração
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Tudo do Standard +
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Videoconferência HD
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">📊</div>
+                    CRM
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Inteligência de vendas
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Gestão de estoque completa
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Análises e BI avançado
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">⚡</div>
+                    Automação
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        RPA completo
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Centro de automação
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">👥</div>
+                    RH
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Gestão de RH completa
+                    </li>
+                </ul>
+            </div>
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <h3 class="plan-name enterprise">Enterprise</h3>
+                <div class="price-wrapper">
+                    <span class="currency">R$</span>
+                    <span class="price" data-monthly="2799" data-annual="2239">2.239</span>
+                </div>
+                <p class="price-period">/ empresa / mês / cobrança anual</p>
+                <span class="users-badge">inclui 250 usuários</span>
+                <a href="https://wa.me/554738420116?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20adquirir%20o%20plano%20Enterprise%20do%20Bitrix24." target="_blank" class="cta-button secondary">AGENDAR DEMONSTRAÇÃO</a>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                    </div>
+                    <span>3 TB de armazenamento</span>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <span>250 usuários</span>
+                </div>
+                <div class="features-separator"></div>
+                <div class="feature-category">
+                    <div class="feature-category-icon">🏢</div>
+                    Enterprise
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Tudo do Professional +
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Multi-filiais/departamentos
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Escalabilidade total
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Suporte prioritário
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">🔒</div>
+                    Segurança
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        SSO / SAML 2.0
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Auditoria avançada
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Backup e recuperação
+                    </li>
+                </ul>
+                <div class="feature-category">
+                    <div class="feature-category-icon">🤖</div>
+                    CoPilot IA
+                </div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        IA sem limites
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></div>
+                        Automação inteligente
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="compare-link">
+            <a href="https://www.bitrix24.com.br/prices/compare.php" target="_blank">
+                Comparar todos os planos em detalhes
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+        <section class="faq-section">
+            <h2 class="faq-title">Perguntas Frequentes</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    O plano Free é realmente gratuito para sempre?
+                    <span class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="faq-answer">
+                    Sim! O plano Free do Bitrix24 é 100% gratuito e não tem prazo de expiração. Você pode usá-lo por tempo ilimitado com até usuários ilimitados e ter acesso aos recursos básicos de CRM, colaboração e gestão de projetos.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Posso mudar de plano a qualquer momento?
+                    <span class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="faq-answer">
+                    Sim! Você pode fazer upgrade para um plano superior a qualquer momento. O valor será calculado proporcionalmente ao tempo restante da sua assinatura atual.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Qual a diferença entre cobrança mensal e anual?
+                    <span class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="faq-answer">
+                    A cobrança anual oferece até 20% de desconto em comparação com a cobrança mensal. Você paga o valor total antecipadamente e garante o melhor preço durante todo o período.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    A CRMThink oferece suporte para implementação?
+                    <span class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="faq-answer">
+                    Sim! Como parceiros Gold do Bitrix24, a CRMThink oferece serviços completos de implementação, treinamento, integração e suporte. Entre em contato conosco para saber mais sobre nossos serviços.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quantos usuários posso adicionar em cada plano?
+                    <span class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="faq-answer">
+                    Cada plano tem um limite específico: Free (ilimitado), Basic (5 usuários), Standard (50 usuários), Professional (100 usuários) e Enterprise (250+ usuários, expansível). O Enterprise permite adicionar mais usuários conforme necessário.
+                </div>
+            </div>
+        </section>
+    </div>
+    <section class="cta-section">
+        <h2>Pronto para transformar sua empresa?</h2>
+        <p>Fale com nossos especialistas e descubra o melhor plano para o seu negócio</p>
+        <div class="cta-buttons">
+            <a href="https://wa.me/554738420116?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Bitrix24" class="btn btn-white">Falar com Especialista</a>
+            <a href="https://www.bitrix24.com.br/create.php?p=3523589" class="btn btn-outline">Começar Grátis</a>
+        </div>
+        <div class="partner-badge">
+            <span>Parceiro Oficial</span>
+            <img src="https://www.crmthink.com.br/wp-content/uploads/2020/06/logo-bitrix24Gold.png" alt="Bitrix24 Gold Partner" style="height: 60px; filter: brightness(0) invert(1);">
+        </div>
+    </section>
+    <script>
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        const prices = document.querySelectorAll('.price[data-monthly]');
+        const periodTexts = document.querySelectorAll('.price-period');
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const period = btn.dataset.period;
+                
+                prices.forEach(price => {
+                    const value = price.dataset[period];
+                    price.textContent = parseInt(value).toLocaleString('pt-BR');
+                });
+                periodTexts.forEach(text => {
+                    if (period === 'monthly') {
+                        text.textContent = '/ empresa / mês / cobrança mensal';
+                    } else {
+                        text.textContent = '/ empresa / mês / cobrança anual';
+                    }
+                });
+            });
+        });
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('open');
+                    }
+                });
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>
