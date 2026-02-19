@@ -88,7 +88,6 @@
             color: #1e293b;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        /* ✅ CORREÇÃO PRINCIPAL: forçar 5 colunas no desktop */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -111,9 +110,12 @@
         .pricing-card.popular {
             border-color: #00b4a0;
         }
+        /* ✅ CORREÇÃO: card free com overflow visible e borda lateral */
         .pricing-card.free {
             border-left: 5px solid #00b4a0;
+            overflow: visible;
         }
+
         .popular-badge {
             position: absolute;
             top: -12px;
@@ -127,19 +129,25 @@
             font-weight: 600;
             white-space: nowrap;
         }
+
+        /* ✅ CORREÇÃO PRINCIPAL: badge reposicionada para não sobrepor o título */
         .free-badge {
             position: absolute;
-            top: 20px;
-            left: -12px;
+            top: 50px;        /* desce abaixo do título */
+            left: -16px;      /* sai para fora da borda esquerda */
             background: #00b4a0;
             color: white;
-            padding: 8px 12px;
-            font-size: 12px;
+            padding: 8px 10px;
+            font-size: 11px;
             font-weight: 700;
             writing-mode: vertical-rl;
             text-orientation: mixed;
-            border-radius: 4px 4px 0 0;
+            border-radius: 4px 0 0 4px;
+            transform: rotate(180deg);
+            letter-spacing: 1px;
+            z-index: 2;
         }
+
         .plan-name {
             font-size: 22px;
             font-weight: 700;
@@ -433,7 +441,6 @@
         .compare-link a:hover {
             text-decoration: underline;
         }
-        /* ✅ RESPONSIVIDADE CORRIGIDA */
         @media (max-width: 1300px) {
             .pricing-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -493,6 +500,7 @@
             
             <!-- Free Plan -->
             <div class="pricing-card free">
+                <!-- ✅ Badge lateral reposicionada: top:50px para ficar abaixo do título -->
                 <span class="free-badge">Free</span>
                 <h3 class="plan-name free-plan">Free</h3>
                 <div class="price-wrapper">
